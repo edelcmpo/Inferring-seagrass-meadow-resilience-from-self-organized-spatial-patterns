@@ -1,9 +1,6 @@
-using FourierFlows, Random, Plots
-using LinearAlgebra: mul!, ldiv!
-using DelimitedFiles
-using CUDA
+### Define the model
 
-# Define useful structures and functions
+## Define useful structures and functions
 struct Params{T} <: AbstractParams
     w :: T         
     a :: T      
@@ -51,24 +48,24 @@ function calcN!(N, sol, t, clock, vars, params, grid)
     @. vars.laplah = - (grid.kr^2 + grid.l^2) * vars.nh
     @. vars.nabla4h = (grid.kr^2 + grid.l^2)^2 * vars.nh
 
-    ldiv!(vars.n, grid.rfftplan, vars.nh) #Deshacemos transformada de fourier nh
+    ldiv!(vars.n, grid.rfftplan, vars.nh) #Undoing Fourier transform nh
     ldiv!(vars.gradx, grid.rfftplan, vars.gradxh)
     ldiv!(vars.grady, grid.rfftplan, vars.gradyh)
     ldiv!(vars.lapla, grid.rfftplan, vars.laplah)
     ldiv!(vars.nabla4, grid.rfftplan, vars.nabla4h)
     
     @. vars.lapla *= vars.n                                          # lapla(n) * n
-    mul!(vars.laplah, grid.rfftplan, vars.lapla)                        # \hat{lapla(n) * n}
+    mul!(vars.laplah, grid.rfftplan, vars.lapla)                     # \hat{lapla(n) * n}
 
-    @. vars.gradx = vars.gradx^2 + vars.grady^2                             # ||grad||^2
-    mul!(vars.gradxh, grid.rfftplan, vars.gradx )                              # \hat{||grad||^2}
+    @. vars.gradx = vars.gradx^2 + vars.grady^2                      # ||grad||^2
+    mul!(vars.gradxh, grid.rfftplan, vars.gradx )                    # \hat{||grad||^2}
 
     @. vars.nabla4 *= (vars.n + params.gamma/params.beta)            # nabla4(n) * n. We add the gamma correction
-    mul!(vars.nabla4h, grid.rfftplan, vars.nabla4)                      # \hat{nabla4(n) * n}
+    mul!(vars.nabla4h, grid.rfftplan, vars.nabla4)                   # \hat{nabla4(n) * n}
 
     RealN = @. params.a * vars.n * vars.n - params.b * vars.n * vars.n * vars.n  # Local non-linear part
 
-    N .= grid.rfftplan *RealN                               # Local non-linear part
+    N .= grid.rfftplan *RealN                                                    # Local non-linear part
     
     @. N += params.alpha * vars.laplah + params.delta * vars.gradxh + params.beta * vars.nabla4h 
 
@@ -96,9 +93,9 @@ function updatevars!(prob)
     """
     Update the variables in `prob.vars` using the solution in `prob.sol`.
     """
-    #dealias!(sol, grid) # Soy un poco negacionista del dealiasing en general, si se quiere se puede descomentar
+    #dealias!(sol, grid) 
 
-    vars, grid, sol = prob.vars, prob.grid, prob.sol # He puesto estoa qui xq es lo que yo suelo hacer
+    vars, grid, sol = prob.vars, prob.grid, prob.sol 
 
     ldiv!(vars.n, grid.rfftplan, deepcopy(sol)) # use deepcopy() because irfft destroys its input
 
@@ -127,4 +124,9 @@ function set_n!(prob, n0)
     updatevars!(prob)
 
     return nothing
+end
+
+## Stable solution function (for initial conditions)
+function stable_sol(w, a, b)
+    return (a/(2*b)) + sqrt((a/(2*b))^2 - w/b)
 end
