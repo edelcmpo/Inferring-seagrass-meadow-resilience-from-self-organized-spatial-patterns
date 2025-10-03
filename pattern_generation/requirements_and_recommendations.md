@@ -9,5 +9,5 @@ The developed Julia code is fairly simple at first glance. However there are som
 
 #### RECOMMENDATIONS:
 + The code takes a loong time to run. It is strongly recommended to use GPU to speed up the process.
-+ In the notebook the example has a grid of nx=ny=128 points and Lx=Ly=20 m. When using GPU, you can increase the size considerably so you can find more stripes/dots of the pattern in your image (for me, it worked fine with a grid of nx=ny=256 and Lx=Ly=40m)
-+ If you want to adapt the code for other equation, keep in mind how you have to adapt each term in the Fourier space in the concerning function. In our case it was necessary to add an additional term governed by gamma so that the code wouldnt collapse (more details on this on the written thesis).
++ In the notebook the example has a grid of nx=ny=128 points and Lx=Ly=20 m. When using GPU, you can increase the size considerably so you can find more stripes/dots of the pattern in your image (for me, it worked fine with a grid of nx=ny=256 and Lx=Ly=40m). You can have fun trying different configurations of the grid and time resolution by changing the settings of the notebook.
++ If you want to adapt the code for other equation, keep in mind how you have to work with each term in the Fourier space in the concerning function. In our case it was necessary to add (and substract) an additional term governed by gamma so that the code wouldnt collapse (more details on this on the written thesis).
