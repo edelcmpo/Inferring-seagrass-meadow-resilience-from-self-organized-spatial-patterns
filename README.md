@@ -15,9 +15,9 @@ for vegetation patterns including rhizome growth”, [Physical Review Research 2
 
 ## Contents
 + **pattern_generation**: A first folder containing the code for the pattern generation
-  +**generating_funcs.jl**: Julia code with the basic functions where the model is included
-  +**generating_example_notebook.ipynb**: Julia notebook with an example of a pattern generation, plus some images of our own
-  +**requirements_and_recommendations.md**: Some written requirements and recommendations useful when using the code
+-**generating_funcs.jl**: Julia code with the basic functions where the model is included
+-**generating_example_notebook.ipynb**: Julia notebook with an example of a pattern generation, plus some images of our own
+-**requirements_and_recommendations.md**: Some written requirements and recommendations useful when using the code
   
 + **pattern_analysis**
 
