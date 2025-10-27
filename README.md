@@ -18,8 +18,10 @@ for vegetation patterns including rhizome growth”, [Physical Review Research 2
   - **generating_funcs.jl**: Julia utility file with the basic functions where the model is included.
   - **generating_example_notebook.ipynb**: Julia notebook with an example of a pattern generation, plus some images of our own.
   - **requirements_and_recommendations.md**: Some written requirements and recommendations useful when using the code.
-  - **stripes_generator.jl**: an example on how to run a big pattern generation of striped patterns.
+  - **pattern_generator.jl**: an example on how to run a big pattern generation of striped patterns.
   
 + **pattern_analysis**
-
+  - **data_preprocess.ipynb**: Python notebook with examples on the data augmentation and thresholding went.
+  - **X_model_training.py**: Python codes on how the best models were trained for the different problems.
 + **pattern_predictions**
+  - **pollenca_predict.ipynb**: Python notebook of the example of the predictions of Pollença.
