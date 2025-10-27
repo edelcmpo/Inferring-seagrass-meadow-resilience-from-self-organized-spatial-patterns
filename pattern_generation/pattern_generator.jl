@@ -5,6 +5,10 @@ using CUDA
 
 include("generating_funcs.jl")
 
+# This example corresponds to a striped pattern generator. For different patterns one would change the 
+# range of w and the initial condition/folder (remember that more complex patterns such as hexagons require
+# much more time, ideally one would start with an initial condition already formed and perform a sweep of omega)
+
 # Setting the parameters
 dev = GPU()
 
