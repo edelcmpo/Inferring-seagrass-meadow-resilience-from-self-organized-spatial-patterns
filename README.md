@@ -22,6 +22,6 @@ for vegetation patterns including rhizome growth”, [Physical Review Research 2
   
 + **pattern_analysis**
   - **data_preprocess.ipynb**: Python notebook with examples on the data augmentation and thresholding went.
-  - **X_model_training.py**: Python codes on how the best models were trained for the different problems.
+  - **X_model_training.ipynb**: Python codes on how the best models were trained for the different problems (classification, C, and mortality estimation, ME).
 + **pattern_predictions**
   - **pollenca_predict.ipynb**: Python notebook of the example of the predictions of Pollença.
