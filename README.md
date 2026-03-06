@@ -1,4 +1,4 @@
-# PosidoniaPatternFormation
+# Inferring seagrass meadow resilience from self-organized spatial patterns
 
 This repository contains the code used in the study:
 
