@@ -1,27 +1,110 @@
 # PosidoniaPatternFormation
-This repository contains all the code used in the development of my Master's Thesis: ["Monitoring the Resilience of Seagrass Meadows from Satellite Meadows from Satellite Imagery Using Machine Learning"](https://ifisc.uib-csic.es/es/publications/monitoring-the-resilience-of-seagrass-meadows-from/). 
 
-## Introduction
-Seagrass meadows, found in coastal marine ecosystems worldwide, play a vital role in enhancing coastal biodiversity. They act as carbon sinks, protect coastlines from erosion, and improve water clarity through particle sedimentation. Unfortunately, the global seagrass extent has suffered significant losses, with approximately one third already vanished, primarily due to eutrophication, water quality deterioration, habitat destruction, overfishing, and climate change. 
+This repository contains the code used in the study:
 
-In the thesis, we proposed to evaluate the health status of *Posidonia oceanica* habitats in the Balearic Islands from their spatial patterns. We used deep learning models based on Convolutional Neural Networks (CNNs) to separate the different classes of *P. oceanica* patterns and predict their mortality. For this purpose, a code has been developed from scratch to generate patterns according to a mathematical model capable of reproducing the behaviour of the species. This repository gathers the full code used for every step of the thesis from the pattern generation, its analysis, and, finally, the application to empirical data of the coasts of the Balearic Islands.
+**Inferring seagrass meadow resilience from self-organized spatial patterns**
 
-The general model used for generating the images is extracted from the original paper by D. Ruiz-Reynés, F. Schönsberg, E. Hernández-García, and D. Gomila [1]. For more information about the theoretical and practical knowledge necessary for the creation and analysis of said patterns such as the method of solving the problem and the initial conditions used the thesis is available on the [following link](https://ifisc.uib-csic.es/en/publications/monitoring-the-resilience-of-seagrass-meadows-from/).  
+It implements the full computational pipeline used in the manuscript, from synthetic seascape generation based on a mechanistic model of seagrass self-organization, to pattern preprocessing, deep-learning model training, and application to empirical habitat cartography from the Balearic Islands.
 
+## Overview
 
-[1] D. Ruiz-Reynés, F. Schönsberg, E. Hernández-García, and D. Gomila, “General model
-for vegetation patterns including rhizome growth”, [Physical Review Research 2, 023402
-(2020)](https://link.aps.org/doi/10.1103/PhysRevResearch.2.023402)
+Seagrass meadows are among the most valuable coastal ecosystems on Earth, providing habitat for marine biodiversity, stabilizing sediments, protecting shorelines, improving water quality, and contributing to carbon sequestration. However, they are increasingly threatened by habitat degradation, eutrophication, and climate-driven stress.
 
-## Contents
-+ **pattern_generation**: A first folder containing the code for the pattern generation
-  - **generating_funcs.jl**: Julia utility file with the basic functions where the model is included.
-  - **generating_example_notebook.ipynb**: Julia notebook with an example of a pattern generation, plus some images of our own.
-  - **requirements_and_recommendations.md**: Some written requirements and recommendations useful when using the code.
-  - **pattern_generator.jl**: an example on how to run a big pattern generation of striped patterns.
-  
-+ **pattern_analysis**
-  - **data_preprocess.ipynb**: Python notebook with examples on the data augmentation and thresholding went.
-  - **X_model_training.ipynb**: Python codes on how the best models were trained for the different problems (classification, C, and mortality estimation, ME).
-+ **pattern_predictions**
-  - **pollenca_predict.ipynb**: Python notebook of the example of the predictions of Pollença.
+This repository focuses on *Posidonia oceanica* meadows in the Balearic Islands. The central idea of the study is that self-organized spatial patterns contain information about meadow condition. To exploit this, we combine:
+
+- a mechanistic model of seagrass pattern formation,
+- synthetic spatial data generation,
+- convolutional neural networks (CNNs) for pattern inference,
+- and empirical benthic cartography.
+
+The trained models are used to infer:
+1. discrete meadow states from spatial pattern, and  
+2. a continuous estimate of effective mortality associated with meadow deterioration.
+
+## Repository structure
+
+### `pattern_generation`
+Code for generating synthetic seagrass patterns from the mechanistic model.
+
+- **`generating_funcs.jl`**  
+  Julia utility file containing the model implementation and the main functions required for numerical integration and pattern generation.
+
+- **`generating_example_notebook.ipynb`**  
+  Example Julia notebook illustrating how to generate synthetic patterns and visualize the resulting spatial states.
+
+- **`requirements_and_recommendations.md`**  
+  Notes on software requirements, numerical considerations, and practical recommendations for running the simulations.
+
+- **`pattern_generator.jl`**  
+  Example Julia script for large-scale generation of patterned datasets.
+
+### `pattern_analysis`
+Code for preprocessing synthetic patterns and training the deep-learning models.
+
+- **`data_preprocess.ipynb`**  
+  Python notebook illustrating the preprocessing workflow, including augmentation and thresholding of simulated density maps.
+
+- **`X_model_training.ipynb`**  
+  Python notebooks/scripts used to train the CNN models for pattern classification and effective mortality estimation.
+
+### `pattern_predictions`
+Code for applying trained models to empirical habitat maps.
+
+- **`pollenca_predict.ipynb`**  
+  Python notebook showing an example application of the trained models to empirical cartography from Pollença.
+
+## Workflow
+
+The repository is organized around the following analysis pipeline:
+
+1. **Pattern generation**  
+   Synthetic seascapes are generated by solving the mechanistic model across a range of effective mortality values.
+
+2. **Pattern preprocessing**  
+   Simulated density fields are augmented and thresholded to build training datasets.
+
+3. **Model training**  
+   CNN models are trained to infer:
+   - discrete meadow state (classification),
+   - effective mortality (regression).
+
+4. **Application to empirical cartography**  
+   Trained models are applied to georeferenced habitat maps from the Balearic Islands to recover spatial variation in meadow condition.
+
+## Scientific scope
+
+The repository supports a framework in which habitat cartography is used not only to map seagrass extent, but also to infer ecologically meaningful information about meadow condition. The study is based on the idea that self-organized spatial structure provides an observable signature of latent ecosystem state.
+
+In this context, the repository enables:
+- generation of synthetic patterned meadows,
+- training of theory-guided machine-learning models,
+- prediction of meadow states from empirical maps,
+- and estimation of spatial indicators related to deterioration and fragmentation.
+
+## Languages and main dependencies
+
+The repository uses both **Julia** and **Python**:
+
+- **Julia** for numerical simulation of the mechanistic PDE model
+- **Python** for preprocessing, deep-learning training, and empirical prediction
+
+Main packages include:
+- `FourierFlows.jl` for numerical solution of the PDE model
+- `TensorFlow` for deep learning
+- `scikit-learn` for model evaluation
+
+Additional package requirements are described in the corresponding notebooks and utility files.
+
+## Reproducibility
+
+This repository contains the research code used to generate the synthetic datasets, train the models, and apply them to empirical habitat maps. Some scripts are designed as research workflows and may require adaptation depending on the local computing environment, file paths, and hardware configuration.
+
+## Data
+
+The empirical applications use habitat cartography from the Balearic Islands. Access to these data depends on the corresponding data providers and sources used in the study. Synthetic data can be generated directly from the model implemented in this repository.
+
+## Citation
+
+If you use this repository, please cite the associated manuscript:
+
+**Inferring seagrass meadow resilience from self-organized spatial patterns**
